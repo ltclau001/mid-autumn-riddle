@@ -198,12 +198,12 @@
       text-align: center;
     }
 
-    /* 分數牌 */
+    /* 分數牌（左右皆為金色小星星） */
     .round-score-bar {
       background: linear-gradient(180deg, #ca8a04 0%, #854d0e 100%);
       border: 2px solid #fef08a;
       border-radius: 40px;
-      padding: 0.5vh 3vw;
+      padding: 0.5vh 3.5vw;
       color: #ffffff;
       font-size: clamp(16px, 2.5vh, 22px);
       font-weight: 900;
@@ -211,9 +211,14 @@
       z-index: 6;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       white-space: nowrap;
       margin: 0.5vh 0;
+    }
+
+    .score-star {
+      font-size: 1.1em;
+      filter: drop-shadow(0 0 4px rgba(254, 240, 138, 0.8));
     }
 
     /* 中央燈謎板 */
@@ -270,7 +275,7 @@
     .feedback-msg.correct { color: #4ade80; }
     .feedback-msg.wrong { color: #f87171; }
 
-    /* 彩色按鈕（響應式） */
+    /* 彩色按鈕 */
     .candy-btn-group {
       display: flex;
       justify-content: center;
@@ -332,7 +337,7 @@
     .view-page { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: space-between; }
     .view-page.active { display: flex; }
 
-    /* ================= iPhone 及直向螢幕特別優化 (Portrait / Mobile) ================= */
+    /* iPhone / 直向螢幕特別優化 */
     @media (max-width: 600px), (orientation: portrait) {
       .top-bar-wrapper {
         flex-direction: column;
@@ -462,9 +467,12 @@
         <div class="game-main-title">中秋猜燈謎遊戲</div>
       </div>
 
+      <!-- 分數牌：左邊與右邊均為星星圖案 ⭐ -->
       <div class="round-score-bar">
-        <span>🪙 回合分數：<span id="score-display">0</span> / 5</span>
-        <span>⭐ 第 <span id="q-num-display">1</span> 題</span>
+        <span class="score-star">⭐</span>
+        <span>回合分數：<span id="score-display">0</span> / 5</span>
+        <span class="score-star">⭐</span>
+        <span>第 <span id="q-num-display">1</span> 題</span>
       </div>
 
       <div class="board-container">

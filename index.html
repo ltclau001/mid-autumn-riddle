@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>中華基督教會全完第一小學 - 中秋猜燈謎遊戲</title>
+  <style>
+    :root {
+      --primary-gold: #ffc107;
+      --board-bg: #fffbeb;
+      --text-brown: #4a2810;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", "Microsoft JhengHei", "微軟正黑體", sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #090723;
+    }
+
+    /* 滿版主視窗 */
+    .game-viewport {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle at 18% 18%, #311068 0%, #1e1b4b 35%, #0f172a 75%, #020617 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5vh 2vw;
+      border: 8px solid #f59e0b;
+      overflow: hidden;
+    }
+
+    /* ================= 豐富的中秋節日動態背景 ================= */
+
+    /* 1. 發光大滿月 */
+    .moon {
+      position: absolute;
+      top: 4vh;
+      left: 10vw;
+      width: 16vh;
+      height: 16vh;
+      background: radial-gradient(circle, #ffffff 15%, #fef08a 60%, #eab308 100%);
+      border-radius: 50%;
+      box-shadow: 0 0 55px rgba(254, 240, 138, 0.95), 0 0 110px rgba(234, 179, 8, 0.6);
+      z-index: 1;
+      pointer-events: none;
+      animation: moonPulse 4s infinite alternate ease-in-out;
+    }
+
+    @keyframes moonPulse {
+      0% { transform: scale(1); filter: brightness(1); }
+      100% { transform: scale(1.05); filter: brightness(1.2) drop-shadow(0 0 30px #fde047); }
+    }
+
+    /* 2. 動態祥雲層 */
+    .cloud {
+      position: absolute;
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.2), rgba(255,255,255,0.02));
+      border-radius: 50px;
+      filter: blur(10px);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .cloud-1 { width: 350px; height: 65px; top: 10vh; animation: floatCloud 30s infinite linear; }
+    .cloud-2 { width: 480px; height: 85px; top: 32vh; animation: floatCloud 45s infinite linear -15s; }
+    .cloud-3 { width: 300px; height: 55px; top: 70vh; animation: floatCloud 36s infinite linear -8s; }
+
+    @keyframes floatCloud {
+      from { transform: translateX(-550px); }
+      to { transform: translateX(115vw); }
+    }
+
+    /* 3. 升空的中秋天燈與漂浮月餅 */
+    .sky-item {
+      position: absolute;
+      bottom: -70px;
+      z-index: 2;
+      pointer-events: none;
+      animation: flyUpward linear infinite;
+    }
+    .item-lantern-1 { left: 16vw; font-size: 34px; animation-duration: 15s; animation-delay: 0s; filter: drop-shadow(0 0 10px #ff9800); }
+    .item-lantern-2 { left: 45vw; font-size: 30px; animation-duration: 20s; animation-delay: 5s; filter: drop-shadow(0 0 12px #ff5722); }
+    .item-lantern-3 { left: 75vw; font-size: 36px; animation-duration: 17s; animation-delay: 2s; filter: drop-shadow(0 0 10px #ff9800); }
+    .item-mooncake-1 { left: 30vw; font-size: 28px; animation-duration: 23s; animation-delay: 7s; filter: drop-shadow(0 0 8px #facc15); }
+    .item-mooncake-2 { left: 86vw; font-size: 32px; animation-duration: 19s; animation-delay: 11s; filter: drop-shadow(0 0 8px #facc15); }
+
+    @keyframes flyUpward {
+      0% { transform: translateY(0) translateX(0) rotate(-4deg); opacity: 0; }
+      15% { opacity: 0.95; }
+      50% { transform: translateY(-55vh) translateX(30px) rotate(6deg); }
+      85% { opacity: 0.85; }
+      100% { transform: translateY(-118vh) translateX(-25px) rotate(-4deg); opacity: 0; }
+    }
+
+    /* 4. 閃爍星星 */
+    .twinkle-star {
+      position: absolute;
+      font-size: 20px;
+      z-index: 1;
+      pointer-events: none;
+      animation: starTwinkle 2.5s infinite ease-in-out alternate;
+    }
+    .star-1 { top: 8vh; left: 32vw; animation-delay: 0.2s; }
+    .star-2 { top: 22vh; left: 62vw; font-size: 26px; animation-delay: 1.1s; }
+    .star-3 { top: 15vh; left: 88vw; animation-delay: 1.8s; }
+    .star-4 { top: 60vh; left: 8vw; animation-delay: 0.7s; }
+
+    @keyframes starTwinkle {
+      0% { transform: scale(0.6) rotate(0deg); opacity: 0.3; }
+      100% { transform: scale(1.3) rotate(30deg); opacity: 1; filter: drop-shadow(0 0 8px #fde047); }
+    }
+
+    /* 5. 兩側中秋水果與節慶吊飾 */
+    .hanging-ornament {
+      position: absolute;
+      top: -5px;
+      z-index: 4;
+      pointer-events: none;
+      transform-origin: top center;
+      animation: swingOrnament 3.4s infinite ease-in-out alternate;
+      line-height: 1.1;
+      text-align: center;
+    }
+    .hang-left { left: 1.5vw; }
+    .hang-right { right: 1.5vw; animation-delay: -1.7s; }
+
+    @keyframes swingOrnament {
+      0% { transform: rotate(-8deg); }
+      100% { transform: rotate(8deg); }
+    }
+
+    /* 6. 嫦娥仙子 & 涼亭吃月餅小兔 */
+    .decor-left {
+      position: absolute;
+      left: 1.8vw;
+      top: 15vh;
+      z-index: 3;
+      pointer-events: none;
+      text-align: center;
+      animation: floatChangE 4.2s infinite ease-in-out alternate;
+    }
+
+    @keyframes floatChangE {
+      0% { transform: translateY(0) rotate(-1deg); }
+      100% { transform: translateY(-18px) rotate(3deg); }
+    }
+
+    .decor-right {
+      position: absolute;
+      right: 2vw;
+      bottom: 5vh;
+      z-index: 3;
+      pointer-events: none;
+      text-align: center;
+      animation: bounceBunny 2.8s infinite ease-in-out alternate;
+    }
+
+    @keyframes bounceBunny {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(-10px) scale(1.04); }
+    }
+
+    /* ================= 前景 UI 介面 ================= */
+
+    /* 右上方學校名稱標籤 */
+    .school-header-box {
+      position: absolute;
+      top: 2vh;
+      right: 3vw;
+      background: linear-gradient(135deg, rgba(30, 20, 65, 0.92) 0%, rgba(15, 23, 42, 0.96) 100%);
+      border: 3px solid #ffd54f;
+      border-radius: 16px;
+      padding: 8px 24px;
+      text-align: center;
+      z-index: 10;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+      white-space: nowrap;
+    }
+    .school-title-zh {
+      font-size: 24px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    /* 主標題 */
+    .game-main-title {
+      font-size: 4.8vh;
+      font-weight: 900;
+      color: #fff9c4;
+      text-shadow: 0 4px 0 #78350f, 0 8px 18px rgba(0, 0, 0, 0.7);
+      margin-top: 0.8vh;
+      z-index: 6;
+      letter-spacing: 2px;
+      white-space: nowrap;
+    }
+
+    /* 回合分數條 */
+    .round-score-bar {
+      background: linear-gradient(180deg, #ca8a04 0%, #854d0e 100%);
+      border: 3px solid #fef08a;
+      border-radius: 40px;
+      padding: 0.6vh 4vw;
+      color: #ffffff;
+      font-size: 3vh;
+      font-weight: 900;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.5);
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      white-space: nowrap;
+    }
+
+    /* 中央燈謎牌匾 */
+    .board-container {
+      position: relative;
+      width: 58vw;
+      max-width: 740px;
+      min-height: 25vh;
+      background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
+      border: 6px solid #f59e0b;
+      border-radius: 28px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.6), inset 0 0 20px rgba(245, 158, 11, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5vh 3vw;
+      z-index: 6;
+      margin: 0.8vh 0;
+    }
+
+    .board-bunny {
+      position: absolute;
+      font-size: 4.5vh;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3));
+    }
+    .bunny-tl { top: -2.2vh; left: -1.5vw; }
+    .bunny-tr { top: -2.2vh; right: -1.5vw; }
+    .bunny-bl { bottom: -2vh; left: -1.5vw; }
+    .bunny-br { bottom: -2vh; right: -1.5vw; }
+
+    .riddle-number {
+      font-size: 2.8vh;
+      font-weight: 900;
+      color: #b45309;
+      margin-bottom: 0.6vh;
+      white-space: nowrap;
+    }
+
+    .riddle-question-text {
+      font-size: 4.2vh;
+      line-height: 1.4;
+      font-weight: 900;
+      color: var(--text-brown);
+      text-align: center;
+    }
+
+    /* 答題反饋提示 */
+    .feedback-msg {
+      font-size: 3vh;
+      font-weight: 900;
+      min-height: 3.8vh;
+      z-index: 6;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+      white-space: nowrap;
+    }
+    .feedback-msg.correct { color: #4ade80; }
+    .feedback-msg.wrong { color: #f87171; }
+
+    /* 彩色立體糖果按鈕 - 確保單行不折行 */
+    .candy-btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 2.2vw;
+      width: 78vw;
+      max-width: 900px;
+      z-index: 6;
+      margin-bottom: 1.2vh;
+    }
+
+    .btn-candy {
+      flex: 1;
+      padding: 1.6vh 1.8vw;
+      font-size: 3.8vh;
+      font-weight: 900;
+      color: #ffffff;
+      border: 5px solid #ffffff;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 8px 0 rgba(0,0,0,0.35), 0 12px 20px rgba(0,0,0,0.4);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      outline: none;
+      white-space: nowrap; /* 確保永遠單行顯示 */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-candy:nth-child(1) { background: linear-gradient(180deg, #4ade80 0%, #16a34a 100%); }
+    .btn-candy:nth-child(2) { background: linear-gradient(180deg, #f472b6 0%, #db2777 100%); }
+    .btn-candy:nth-child(3) { background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); }
+    .btn-candy:nth-child(4) { background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); }
+
+    .btn-candy:active {
+      transform: translateY(6px);
+      box-shadow: 0 2px 0 rgba(0,0,0,0.35);
+    }
+
+    /* 底部操作面板 */
+    .control-footer {
+      display: flex;
+      gap: 1.5vw;
+      z-index: 7;
+      margin-bottom: 0.5vh;
+    }
+
+    .util-btn {
+      background: rgba(15, 23, 42, 0.85);
+      border: 2px solid #ffd54f;
+      color: #fff9c4;
+      font-size: 2.2vh;
+      font-weight: 900;
+      padding: 0.8vh 2vw;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .util-btn:hover {
+      background: #b45309;
+      color: #ffffff;
+    }
+
+    .view-page { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: space-between; }
+    .view-page.active { display: flex; }
+  </style>
+</head>
+<body>
+
+  <div class="game-viewport">
+
+    <!-- 動態背景：月亮、祥雲、星星、天燈、月餅、柚子吊飾 -->
+    <div class="moon"></div>
+    
+    <div class="twinkle-star star-1">✨</div>
+    <div class="twinkle-star star-2">⭐</div>
+    <div class="twinkle-star star-3">🌟</div>
+    <div class="twinkle-star star-4">✨</div>
+
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+
+    <div class="sky-item item-lantern-1">🏮</div>
+    <div class="sky-item item-lantern-2">🏮</div>
+    <div class="sky-item item-lantern-3">🏮</div>
+    <div class="sky-item item-mooncake-1">🥮</div>
+    <div class="sky-item item-mooncake-2">🥮</div>
+
+    <!-- 兩側節慶吊飾 -->
+    <div class="hanging-ornament hang-left">
+      <div style="font-size: 44px;">🏮</div>
+      <div style="font-size: 28px; margin-top:-6px;">🍐</div>
+    </div>
+    <div class="hanging-ornament hang-right">
+      <div style="font-size: 44px;">🏮</div>
+      <div style="font-size: 28px; margin-top:-6px;">⭐</div>
+    </div>
+
+    <!-- 左側嫦娥飄雲 & 右側涼亭玉兔 -->
+    <div class="decor-left">
+      <div style="font-size: 9vh;">🧚‍♀️</div>
+      <div style="font-size: 4.5vh; margin-top:-2.2vh;">☁️🐇</div>
+    </div>
+
+    <div class="decor-right">
+      <div style="font-size: 11.5vh;">🛖</div>
+      <div style="font-size: 6.5vh; margin-top:-3.5vh;">🐰🥮🐻</div>
+    </div>
+
+    <!-- 右上方學校名稱 (純中文) -->
+    <div class="school-header-box">
+      <div class="school-title-zh">中華基督教會全完第一小學</div>
+    </div>
+
+    <!-- 1. 主頁畫面 -->
+    <div id="home-view" class="view-page active">
+      <div class="game-main-title">🥮 中秋猜燈謎 🏮</div>
+
+      <div class="board-container" style="min-height: 38vh;">
+        <div class="board-bunny bunny-tl">🐰</div>
+        <div class="board-bunny bunny-tr">🐰</div>
+        <div class="board-bunny bunny-bl">🐰</div>
+        <div class="board-bunny bunny-br">🐰</div>
+        
+        <div style="font-size: 4.2vh; font-weight: 900; color: var(--text-brown); line-height: 1.6; text-align:center;">
+          🌕 歡迎各位小朋友！<br>
+          每個回合有 <strong style="color:#d97706;">5 條題目</strong><br>
+          答啱 1 題得 <strong style="color:#16a34a;">1 分</strong> ⭐
+        </div>
+      </div>
+
+      <div class="candy-btn-group" style="width: auto;">
+        <button class="btn-candy" style="background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%); padding: 1.8vh 5vw;" onclick="startGame()">
+          開始遊戲 🚀
+        </button>
+      </div>
+
+      <div class="control-footer">
+        <button class="util-btn" onclick="toggleFullScreen()">⛶ 全螢幕切換</button>
+      </div>
+    </div>
+
+    <!-- 2. 猜燈謎遊戲畫面 -->
+    <div id="quiz-view" class="view-page">
+      <div class="game-main-title">中秋猜燈謎遊戲</div>
+
+      <div class="round-score-bar">
+        <span>🪙 回合分數：<span id="score-display">0</span> / 5</span>
+        <span>⭐ 第 <span id="q-num-display">1</span> 題</span>
+      </div>
+
+      <div class="board-container">
+        <div class="board-bunny bunny-tl">🐰</div>
+        <div class="board-bunny bunny-tr">🐰</div>
+        <div class="board-bunny bunny-bl">🐰</div>
+        <div class="board-bunny bunny-br">🐰</div>
+
+        <div class="riddle-number" id="riddle-tag">題目 1</div>
+        <div class="riddle-question-text" id="question-text">題目載入中...</div>
+      </div>
+
+      <div class="feedback-msg" id="feedback-area"></div>
+
+      <div class="candy-btn-group" id="options-group"></div>
+
+      <div class="control-footer">
+        <button class="util-btn" onclick="goHome()">🏠 主頁</button>
+        <button class="util-btn" onclick="refreshQuestion()">🔄 更新題目</button>
+        <button class="util-btn" onclick="toggleFullScreen()">⛶ 全螢幕</button>
+      </div>
+    </div>
+
+    <!-- 3. 回合結算畫面 -->
+    <div id="result-view" class="view-page">
+      <div class="game-main-title">🎉 回合挑戰完成 🎉</div>
+
+      <div class="board-container" style="min-height: 35vh;">
+        <div class="board-bunny bunny-tl">🐰</div>
+        <div class="board-bunny bunny-tr">🐰</div>
+        <div class="board-bunny bunny-bl">🐰</div>
+        <div class="board-bunny bunny-br">🐰</div>
+
+        <div style="font-size: 3.5vh; color: var(--text-brown); font-weight: 900;">你的總得分是：</div>
+        <div style="font-size: 9vh; color: #dc2626; font-weight: 900; margin: 1vh 0;">
+          <span id="final-score-text">0</span> / 5 分
+        </div>
+        <div id="final-comment-text" style="font-size: 3.5vh; color: #15803d; font-weight: 900;"></div>
+      </div>
+
+      <!-- 結算按鈕組：完全保證單行顯示不折行 -->
+      <div class="candy-btn-group" style="width: auto; max-width: 95vw; gap: 2vw;">
+        <button class="btn-candy" style="background: linear-gradient(180deg, #22c55e 0%, #15803d 100%); padding: 1.8vh 3.5vw;" onclick="startGame()">
+          下一位小朋友 🎮
+        </button>
+        <button class="btn-candy" style="background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); padding: 1.8vh 3.5vw;" onclick="goHome()">
+          🏠 主頁
+        </button>
+      </div>
+
+      <div class="control-footer">
+        <button class="util-btn" onclick="toggleFullScreen()">⛶ 全螢幕</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const questionBank = [
+      {
+        q: "圓圓臉龐白如雪，住在月亮好快樂。（猜一動物）",
+        options: ["兔子", "小狗", "星星"],
+        ans: "兔子"
+      },
+      {
+        q: "有時似香蕉，有時似大圓盤，掛在夜空照大地。（猜自然事物）",
+        options: ["月亮", "太陽", "彩虹"],
+        ans: "月亮"
+      },
+      {
+        q: "圓圓甜甜像餅乾，中秋全家一齊切開食。（猜節日食物）",
+        options: ["月餅", "雪糕", "西瓜"],
+        ans: "月餅"
+      },
+      {
+        q: "手拿小竹棒，夜晚發光去散步，五顏六色好美麗。（猜節日用品）",
+        options: ["燈籠", "雨傘", "氣球"],
+        ans: "燈籠"
+      },
+      {
+        q: "黃黃綠綠似大梨，中秋剝開一瓣瓣酸甜多汁。（猜水果）",
+        options: ["柚子", "蘋果", "香蕉"],
+        ans: "柚子"
+      },
+      {
+        q: "橫切開好似一顆小星星，香甜多汁脆生生。（猜水果）",
+        options: ["楊桃", "西瓜", "車厘子"],
+        ans: "楊桃"
+      },
+      {
+        q: "傳說中飛上月亮，住在月宮的美麗仙女。（猜人物）",
+        options: ["嫦娥", "白雪公主", "灰姑娘"],
+        ans: "嫦娥"
+      },
+      {
+        q: "細細粒，點燃會發光，放在燈籠入面照亮路。（猜物品）",
+        options: ["蠟燭", "雪條", "牙刷"],
+        ans: "蠟燭"
+      }
+    ];
+
+    let roundQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let isLocked = false;
+
+    function shuffle(arr) {
+      return arr.slice().sort(() => Math.random() - 0.5);
+    }
+
+    function switchPage(pageId) {
+      document.querySelectorAll('.view-page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    function startGame() {
+      score = 0;
+      currentIndex = 0;
+      isLocked = false;
+      roundQuestions = shuffle(questionBank).slice(0, 5);
+      switchPage('quiz-view');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      isLocked = false;
+      const qData = roundQuestions[currentIndex];
+
+      document.getElementById('q-num-display').innerText = currentIndex + 1;
+      document.getElementById('score-display').innerText = score;
+      document.getElementById('riddle-tag').innerText = `題目 ${currentIndex + 1}`;
+      document.getElementById('question-text').innerText = qData.q;
+      document.getElementById('feedback-area').innerText = '';
+
+      const container = document.getElementById('options-group');
+      container.innerHTML = '';
+
+      const shuffledOpts = shuffle(qData.options);
+      shuffledOpts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-candy';
+        btn.innerText = opt;
+        btn.onclick = () => handleAnswer(opt, qData.ans, btn);
+        container.appendChild(btn);
+      });
+    }
+
+    function handleAnswer(selected, correct, btnEl) {
+      if (isLocked) return;
+      isLocked = true;
+
+      const fb = document.getElementById('feedback-area');
+
+      if (selected === correct) {
+        score += 1;
+        document.getElementById('score-display').innerText = score;
+        fb.innerText = '⭐ (正確) 答啱喇！好叻呀！ ⭐';
+        fb.className = 'feedback-msg correct';
+        btnEl.style.transform = 'scale(1.08)';
+        btnEl.style.filter = 'brightness(1.2)';
+      } else {
+        fb.innerText = `答錯咗少少，正確答案係【${correct}】`;
+        fb.className = 'feedback-msg wrong';
+        btnEl.style.opacity = '0.5';
+      }
+
+      setTimeout(() => {
+        currentIndex++;
+        if (currentIndex < roundQuestions.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      }, 1400);
+    }
+
+    function refreshQuestion() {
+      const unused = questionBank.filter(q => !roundQuestions.includes(q));
+      if (unused.length > 0) {
+        roundQuestions[currentIndex] = unused[Math.floor(Math.random() * unused.length)];
+      } else {
+        roundQuestions[currentIndex] = questionBank[Math.floor(Math.random() * questionBank.length)];
+      }
+      renderQuestion();
+    }
+
+    function showResult() {
+      switchPage('result-view');
+      document.getElementById('final-score-text').innerText = score;
+      const commentEl = document.getElementById('final-comment-text');
+
+      if (score === 5) {
+        commentEl.innerText = '🌟 滿分！中秋猜謎小狀元！ 🌕';
+      } else if (score >= 3) {
+        commentEl.innerText = '👏 好厲害！表現非常出色！ 🥮';
+      } else {
+        commentEl.innerText = '💪 繼續加油！下次一定更勁！ 🏮';
+      }
+    }
+
+    function goHome() {
+      switchPage('home-view');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+  </script>
+</body>
+</html>

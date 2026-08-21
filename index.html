@@ -2,8 +2,10 @@
 <html lang="zh-HK">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>中華基督教會全完第一小學 - 中秋猜燈謎遊戲</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>中華基督教會全完第一小學 - 中秋猜燈謎</title>
   <style>
     :root {
       --primary-gold: #ffc107;
@@ -15,56 +17,56 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: "Comic Sans MS", "Microsoft JhengHei", "微軟正黑體", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Comic Sans MS", "Microsoft JhengHei", "微軟正黑體", sans-serif;
       user-select: none;
       -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      touch-action: manipulation;
     }
 
     body, html {
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       background-color: #090723;
     }
 
-    /* 滿版主視窗 */
     .game-viewport {
       position: relative;
       width: 100vw;
       height: 100vh;
+      height: 100dvh;
       background: radial-gradient(circle at 18% 18%, #311068 0%, #1e1b4b 35%, #0f172a 75%, #020617 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
-      padding: 1.5vh 2vw;
-      border: 8px solid #f59e0b;
+      padding: max(1.2vh, env(safe-area-inset-top)) max(2vw, env(safe-area-inset-right)) max(1.2vh, env(safe-area-inset-bottom)) max(2vw, env(safe-area-inset-left));
+      border: 6px solid #f59e0b;
       overflow: hidden;
     }
 
-    /* ================= 豐富的中秋節日動態背景 ================= */
-
-    /* 1. 發光大滿月 */
+    /* ================= 中秋動態背景 ================= */
     .moon {
       position: absolute;
-      top: 4vh;
-      left: 10vw;
-      width: 16vh;
-      height: 16vh;
+      top: 3vh;
+      left: 8vw;
+      width: 14vh;
+      height: 14vh;
       background: radial-gradient(circle, #ffffff 15%, #fef08a 60%, #eab308 100%);
       border-radius: 50%;
-      box-shadow: 0 0 55px rgba(254, 240, 138, 0.95), 0 0 110px rgba(234, 179, 8, 0.6);
+      box-shadow: 0 0 45px rgba(254, 240, 138, 0.95), 0 0 90px rgba(234, 179, 8, 0.6);
       z-index: 1;
       pointer-events: none;
       animation: moonPulse 4s infinite alternate ease-in-out;
     }
 
     @keyframes moonPulse {
-      0% { transform: scale(1); filter: brightness(1); }
-      100% { transform: scale(1.05); filter: brightness(1.2) drop-shadow(0 0 30px #fde047); }
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); filter: drop-shadow(0 0 25px #fde047); }
     }
 
-    /* 2. 動態祥雲層 */
     .cloud {
       position: absolute;
       background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.2), rgba(255,255,255,0.02));
@@ -73,16 +75,14 @@
       z-index: 2;
       pointer-events: none;
     }
-    .cloud-1 { width: 350px; height: 65px; top: 10vh; animation: floatCloud 30s infinite linear; }
-    .cloud-2 { width: 480px; height: 85px; top: 32vh; animation: floatCloud 45s infinite linear -15s; }
-    .cloud-3 { width: 300px; height: 55px; top: 70vh; animation: floatCloud 36s infinite linear -8s; }
+    .cloud-1 { width: 350px; height: 60px; top: 10vh; animation: floatCloud 30s infinite linear; }
+    .cloud-2 { width: 450px; height: 75px; top: 32vh; animation: floatCloud 45s infinite linear -15s; }
 
     @keyframes floatCloud {
-      from { transform: translateX(-550px); }
+      from { transform: translateX(-500px); }
       to { transform: translateX(115vw); }
     }
 
-    /* 3. 升空的中秋天燈與漂浮月餅 */
     .sky-item {
       position: absolute;
       bottom: -70px;
@@ -90,39 +90,35 @@
       pointer-events: none;
       animation: flyUpward linear infinite;
     }
-    .item-lantern-1 { left: 16vw; font-size: 34px; animation-duration: 15s; animation-delay: 0s; filter: drop-shadow(0 0 10px #ff9800); }
-    .item-lantern-2 { left: 45vw; font-size: 30px; animation-duration: 20s; animation-delay: 5s; filter: drop-shadow(0 0 12px #ff5722); }
-    .item-lantern-3 { left: 75vw; font-size: 36px; animation-duration: 17s; animation-delay: 2s; filter: drop-shadow(0 0 10px #ff9800); }
-    .item-mooncake-1 { left: 30vw; font-size: 28px; animation-duration: 23s; animation-delay: 7s; filter: drop-shadow(0 0 8px #facc15); }
-    .item-mooncake-2 { left: 86vw; font-size: 32px; animation-duration: 19s; animation-delay: 11s; filter: drop-shadow(0 0 8px #facc15); }
+    .item-lantern-1 { left: 16vw; font-size: 30px; animation-duration: 15s; }
+    .item-lantern-2 { left: 52vw; font-size: 26px; animation-duration: 20s; animation-delay: 5s; }
+    .item-mooncake-1 { left: 32vw; font-size: 26px; animation-duration: 22s; animation-delay: 7s; }
+    .item-mooncake-2 { left: 82vw; font-size: 28px; animation-duration: 18s; animation-delay: 10s; }
 
     @keyframes flyUpward {
-      0% { transform: translateY(0) translateX(0) rotate(-4deg); opacity: 0; }
-      15% { opacity: 0.95; }
-      50% { transform: translateY(-55vh) translateX(30px) rotate(6deg); }
-      85% { opacity: 0.85; }
-      100% { transform: translateY(-118vh) translateX(-25px) rotate(-4deg); opacity: 0; }
+      0% { transform: translateY(0) rotate(-4deg); opacity: 0; }
+      15% { opacity: 0.9; }
+      50% { transform: translateY(-55vh) rotate(5deg); }
+      85% { opacity: 0.8; }
+      100% { transform: translateY(-115vh) rotate(-4deg); opacity: 0; }
     }
 
-    /* 4. 閃爍星星 */
     .twinkle-star {
       position: absolute;
-      font-size: 20px;
+      font-size: 18px;
       z-index: 1;
       pointer-events: none;
       animation: starTwinkle 2.5s infinite ease-in-out alternate;
     }
-    .star-1 { top: 8vh; left: 32vw; animation-delay: 0.2s; }
-    .star-2 { top: 22vh; left: 62vw; font-size: 26px; animation-delay: 1.1s; }
-    .star-3 { top: 15vh; left: 88vw; animation-delay: 1.8s; }
-    .star-4 { top: 60vh; left: 8vw; animation-delay: 0.7s; }
+    .star-1 { top: 8vh; left: 30vw; }
+    .star-2 { top: 18vh; left: 62vw; font-size: 24px; animation-delay: 1.1s; }
 
     @keyframes starTwinkle {
-      0% { transform: scale(0.6) rotate(0deg); opacity: 0.3; }
-      100% { transform: scale(1.3) rotate(30deg); opacity: 1; filter: drop-shadow(0 0 8px #fde047); }
+      0% { transform: scale(0.6); opacity: 0.3; }
+      100% { transform: scale(1.2); opacity: 1; filter: drop-shadow(0 0 6px #fde047); }
     }
 
-    /* 5. 兩側中秋水果與節慶吊飾 */
+    /* 僅保留左側擺動吊飾，右側已移除避免遮擋文字 */
     .hanging-ornament {
       position: absolute;
       top: -5px;
@@ -134,179 +130,163 @@
       text-align: center;
     }
     .hang-left { left: 1.5vw; }
-    .hang-right { right: 1.5vw; animation-delay: -1.7s; }
 
     @keyframes swingOrnament {
-      0% { transform: rotate(-8deg); }
-      100% { transform: rotate(8deg); }
+      0% { transform: rotate(-7deg); }
+      100% { transform: rotate(7deg); }
     }
 
-    /* 6. 嫦娥仙子 & 涼亭吃月餅小兔 */
     .decor-left {
       position: absolute;
-      left: 1.8vw;
-      top: 15vh;
+      left: 1.5vw;
+      top: 14vh;
       z-index: 3;
       pointer-events: none;
       text-align: center;
-      animation: floatChangE 4.2s infinite ease-in-out alternate;
+      animation: floatChangE 4s infinite ease-in-out alternate;
     }
-
     @keyframes floatChangE {
-      0% { transform: translateY(0) rotate(-1deg); }
-      100% { transform: translateY(-18px) rotate(3deg); }
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-15px); }
     }
 
     .decor-right {
       position: absolute;
-      right: 2vw;
-      bottom: 5vh;
+      right: 1.8vw;
+      bottom: 4vh;
       z-index: 3;
       pointer-events: none;
       text-align: center;
-      animation: bounceBunny 2.8s infinite ease-in-out alternate;
     }
 
-    @keyframes bounceBunny {
-      0% { transform: translateY(0) scale(1); }
-      100% { transform: translateY(-10px) scale(1.04); }
-    }
-
-    /* ================= 前景 UI 介面 ================= */
-
-    /* 右上方學校名稱標籤 */
-    .school-header-box {
+    /* ================= 右上方校名 (清晰融入背景，完全無遮擋) ================= */
+    .school-logo-transparent {
       position: absolute;
-      top: 2vh;
-      right: 3vw;
-      background: linear-gradient(135deg, rgba(30, 20, 65, 0.92) 0%, rgba(15, 23, 42, 0.96) 100%);
-      border: 3px solid #ffd54f;
-      border-radius: 16px;
-      padding: 8px 24px;
-      text-align: center;
+      top: max(2vh, env(safe-area-inset-top));
+      right: max(2.5vw, env(safe-area-inset-right));
       z-index: 10;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.6);
-      white-space: nowrap;
-    }
-    .school-title-zh {
-      font-size: 24px;
-      font-weight: 900;
-      color: #ffffff;
-      letter-spacing: 1.5px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      background: none;
+      border: none;
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      pointer-events: none;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.95)) 
+              drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
     }
 
-    /* 主標題 */
+    .school-logo-img {
+      height: 6vh;
+      max-height: 52px;
+      min-height: 32px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
     .game-main-title {
-      font-size: 4.8vh;
+      font-size: 4.5vh;
       font-weight: 900;
       color: #fff9c4;
-      text-shadow: 0 4px 0 #78350f, 0 8px 18px rgba(0, 0, 0, 0.7);
-      margin-top: 0.8vh;
+      text-shadow: 0 3px 0 #78350f, 0 6px 14px rgba(0,0,0,0.7);
+      margin-top: 0.5vh;
       z-index: 6;
-      letter-spacing: 2px;
       white-space: nowrap;
     }
 
-    /* 回合分數條 */
     .round-score-bar {
       background: linear-gradient(180deg, #ca8a04 0%, #854d0e 100%);
       border: 3px solid #fef08a;
       border-radius: 40px;
-      padding: 0.6vh 4vw;
+      padding: 0.5vh 3.5vw;
       color: #ffffff;
-      font-size: 3vh;
+      font-size: 2.8vh;
       font-weight: 900;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.5);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       z-index: 6;
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       white-space: nowrap;
     }
 
-    /* 中央燈謎牌匾 */
     .board-container {
       position: relative;
-      width: 58vw;
-      max-width: 740px;
-      min-height: 25vh;
+      width: 60vw;
+      max-width: 720px;
+      min-height: 24vh;
       background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
-      border: 6px solid #f59e0b;
-      border-radius: 28px;
-      box-shadow: 0 12px 32px rgba(0,0,0,0.6), inset 0 0 20px rgba(245, 158, 11, 0.2);
+      border: 5px solid #f59e0b;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2.5vh 3vw;
+      padding: 2vh 3vw;
       z-index: 6;
-      margin: 0.8vh 0;
+      margin: 0.5vh 0;
     }
 
     .board-bunny {
       position: absolute;
-      font-size: 4.5vh;
-      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.3));
+      font-size: 4vh;
     }
-    .bunny-tl { top: -2.2vh; left: -1.5vw; }
-    .bunny-tr { top: -2.2vh; right: -1.5vw; }
-    .bunny-bl { bottom: -2vh; left: -1.5vw; }
-    .bunny-br { bottom: -2vh; right: -1.5vw; }
+    .bunny-tl { top: -2vh; left: -1.2vw; }
+    .bunny-tr { top: -2vh; right: -1.2vw; }
+    .bunny-bl { bottom: -1.8vh; left: -1.2vw; }
+    .bunny-br { bottom: -1.8vh; right: -1.2vw; }
 
     .riddle-number {
-      font-size: 2.8vh;
+      font-size: 2.5vh;
       font-weight: 900;
       color: #b45309;
-      margin-bottom: 0.6vh;
+      margin-bottom: 0.4vh;
       white-space: nowrap;
     }
 
     .riddle-question-text {
-      font-size: 4.2vh;
-      line-height: 1.4;
+      font-size: 3.8vh;
+      line-height: 1.35;
       font-weight: 900;
       color: var(--text-brown);
       text-align: center;
     }
 
-    /* 答題反饋提示 */
     .feedback-msg {
-      font-size: 3vh;
+      font-size: 2.8vh;
       font-weight: 900;
-      min-height: 3.8vh;
+      min-height: 3.5vh;
       z-index: 6;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
       white-space: nowrap;
     }
     .feedback-msg.correct { color: #4ade80; }
     .feedback-msg.wrong { color: #f87171; }
 
-    /* 彩色立體糖果按鈕 - 確保單行不折行 */
     .candy-btn-group {
       display: flex;
       justify-content: center;
-      gap: 2.2vw;
+      gap: 2vw;
       width: 78vw;
-      max-width: 900px;
+      max-width: 860px;
       z-index: 6;
-      margin-bottom: 1.2vh;
+      margin-bottom: 1vh;
     }
 
     .btn-candy {
       flex: 1;
-      padding: 1.6vh 1.8vw;
-      font-size: 3.8vh;
+      padding: 1.5vh 1.5vw;
+      font-size: 3.6vh;
       font-weight: 900;
       color: #ffffff;
-      border: 5px solid #ffffff;
-      border-radius: 30px;
+      border: 4px solid #ffffff;
+      border-radius: 26px;
       cursor: pointer;
-      box-shadow: 0 8px 0 rgba(0,0,0,0.35), 0 12px 20px rgba(0,0,0,0.4);
+      box-shadow: 0 6px 0 rgba(0,0,0,0.35);
       text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-      transition: transform 0.08s ease, box-shadow 0.08s ease;
       outline: none;
-      white-space: nowrap; /* 確保永遠單行顯示 */
+      white-space: nowrap;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -318,11 +298,10 @@
     .btn-candy:nth-child(4) { background: linear-gradient(180deg, #fbbf24 0%, #d97706 100%); }
 
     .btn-candy:active {
-      transform: translateY(6px);
+      transform: translateY(4px);
       box-shadow: 0 2px 0 rgba(0,0,0,0.35);
     }
 
-    /* 底部操作面板 */
     .control-footer {
       display: flex;
       gap: 1.5vw;
@@ -334,17 +313,12 @@
       background: rgba(15, 23, 42, 0.85);
       border: 2px solid #ffd54f;
       color: #fff9c4;
-      font-size: 2.2vh;
+      font-size: 2vh;
       font-weight: 900;
-      padding: 0.8vh 2vw;
-      border-radius: 20px;
+      padding: 0.6vh 1.8vw;
+      border-radius: 18px;
       cursor: pointer;
       white-space: nowrap;
-    }
-
-    .util-btn:hover {
-      background: #b45309;
-      color: #ffffff;
     }
 
     .view-page { display: none; width: 100%; height: 100%; flex-direction: column; align-items: center; justify-content: space-between; }
@@ -355,61 +329,50 @@
 
   <div class="game-viewport">
 
-    <!-- 動態背景：月亮、祥雲、星星、天燈、月餅、柚子吊飾 -->
+    <!-- 動態節日背景 -->
     <div class="moon"></div>
-    
     <div class="twinkle-star star-1">✨</div>
     <div class="twinkle-star star-2">⭐</div>
-    <div class="twinkle-star star-3">🌟</div>
-    <div class="twinkle-star star-4">✨</div>
-
     <div class="cloud cloud-1"></div>
     <div class="cloud cloud-2"></div>
-    <div class="cloud cloud-3"></div>
-
     <div class="sky-item item-lantern-1">🏮</div>
     <div class="sky-item item-lantern-2">🏮</div>
-    <div class="sky-item item-lantern-3">🏮</div>
     <div class="sky-item item-mooncake-1">🥮</div>
     <div class="sky-item item-mooncake-2">🥮</div>
 
-    <!-- 兩側節慶吊飾 -->
+    <!-- 僅保留左側吊飾 -->
     <div class="hanging-ornament hang-left">
-      <div style="font-size: 44px;">🏮</div>
-      <div style="font-size: 28px; margin-top:-6px;">🍐</div>
-    </div>
-    <div class="hanging-ornament hang-right">
-      <div style="font-size: 44px;">🏮</div>
-      <div style="font-size: 28px; margin-top:-6px;">⭐</div>
+      <div style="font-size: 38px;">🏮</div>
+      <div style="font-size: 24px; margin-top:-4px;">🍐</div>
     </div>
 
-    <!-- 左側嫦娥飄雲 & 右側涼亭玉兔 -->
     <div class="decor-left">
-      <div style="font-size: 9vh;">🧚‍♀️</div>
-      <div style="font-size: 4.5vh; margin-top:-2.2vh;">☁️🐇</div>
+      <div style="font-size: 8vh;">🧚‍♀️</div>
+      <div style="font-size: 4vh; margin-top:-2vh;">☁️🐇</div>
     </div>
 
     <div class="decor-right">
-      <div style="font-size: 11.5vh;">🛖</div>
-      <div style="font-size: 6.5vh; margin-top:-3.5vh;">🐰🥮🐻</div>
+      <div style="font-size: 10vh;">🛖</div>
+      <div style="font-size: 5.5vh; margin-top:-3vh;">🐰🥮🐻</div>
     </div>
 
-    <!-- 右上方學校名稱 (純中文) -->
-    <div class="school-header-box">
-      <div class="school-title-zh">中華基督教會全完第一小學</div>
+    <!-- 右上方校名圖片 -->
+    <div class="school-logo-transparent">
+      <img src="logo%202022.png" alt="中華基督教會全完第一小學" class="school-logo-img" 
+           onerror="handleImageFallback(this)">
     </div>
 
     <!-- 1. 主頁畫面 -->
     <div id="home-view" class="view-page active">
       <div class="game-main-title">🥮 中秋猜燈謎 🏮</div>
 
-      <div class="board-container" style="min-height: 38vh;">
+      <div class="board-container" style="min-height: 36vh;">
         <div class="board-bunny bunny-tl">🐰</div>
         <div class="board-bunny bunny-tr">🐰</div>
         <div class="board-bunny bunny-bl">🐰</div>
         <div class="board-bunny bunny-br">🐰</div>
         
-        <div style="font-size: 4.2vh; font-weight: 900; color: var(--text-brown); line-height: 1.6; text-align:center;">
+        <div style="font-size: 3.8vh; font-weight: 900; color: var(--text-brown); line-height: 1.6; text-align:center;">
           🌕 歡迎各位小朋友！<br>
           每個回合有 <strong style="color:#d97706;">5 條題目</strong><br>
           答啱 1 題得 <strong style="color:#16a34a;">1 分</strong> ⭐
@@ -417,13 +380,13 @@
       </div>
 
       <div class="candy-btn-group" style="width: auto;">
-        <button class="btn-candy" style="background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%); padding: 1.8vh 5vw;" onclick="startGame()">
+        <button class="btn-candy" style="background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%); padding: 1.6vh 4.5vw;" onclick="startGame()">
           開始遊戲 🚀
         </button>
       </div>
 
       <div class="control-footer">
-        <button class="util-btn" onclick="toggleFullScreen()">⛶ 全螢幕切換</button>
+        <button class="util-btn" onclick="toggleFullScreen()">⛶ 全螢幕模式</button>
       </div>
     </div>
 
@@ -461,25 +424,24 @@
     <div id="result-view" class="view-page">
       <div class="game-main-title">🎉 回合挑戰完成 🎉</div>
 
-      <div class="board-container" style="min-height: 35vh;">
+      <div class="board-container" style="min-height: 33vh;">
         <div class="board-bunny bunny-tl">🐰</div>
         <div class="board-bunny bunny-tr">🐰</div>
         <div class="board-bunny bunny-bl">🐰</div>
         <div class="board-bunny bunny-br">🐰</div>
 
-        <div style="font-size: 3.5vh; color: var(--text-brown); font-weight: 900;">你的總得分是：</div>
-        <div style="font-size: 9vh; color: #dc2626; font-weight: 900; margin: 1vh 0;">
+        <div style="font-size: 3.2vh; color: var(--text-brown); font-weight: 900;">你的總得分是：</div>
+        <div style="font-size: 8vh; color: #dc2626; font-weight: 900; margin: 0.8vh 0;">
           <span id="final-score-text">0</span> / 5 分
         </div>
-        <div id="final-comment-text" style="font-size: 3.5vh; color: #15803d; font-weight: 900;"></div>
+        <div id="final-comment-text" style="font-size: 3.2vh; color: #15803d; font-weight: 900;"></div>
       </div>
 
-      <!-- 結算按鈕組：完全保證單行顯示不折行 -->
       <div class="candy-btn-group" style="width: auto; max-width: 95vw; gap: 2vw;">
-        <button class="btn-candy" style="background: linear-gradient(180deg, #22c55e 0%, #15803d 100%); padding: 1.8vh 3.5vw;" onclick="startGame()">
+        <button class="btn-candy" style="background: linear-gradient(180deg, #22c55e 0%, #15803d 100%); padding: 1.6vh 3.5vw;" onclick="startGame()">
           下一位小朋友 🎮
         </button>
-        <button class="btn-candy" style="background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); padding: 1.8vh 3.5vw;" onclick="goHome()">
+        <button class="btn-candy" style="background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); padding: 1.6vh 3.5vw;" onclick="goHome()">
           🏠 主頁
         </button>
       </div>
@@ -492,6 +454,15 @@
   </div>
 
   <script>
+    function handleImageFallback(img) {
+      if (!img.dataset.triedWeb) {
+        img.dataset.triedWeb = "true";
+        img.src = "https://www.cccfy1.edu.hk/CustomFiles/school_logo.png";
+      } else {
+        img.parentElement.innerHTML = '<span style="color:#ffffff;font-weight:900;font-size:22px;letter-spacing:1px;text-shadow:0 0 10px rgba(255,255,255,0.6);">中華基督教會全完第一小學</span>';
+      }
+    }
+
     const questionBank = [
       {
         q: "圓圓臉龐白如雪，住在月亮好快樂。（猜一動物）",
@@ -592,8 +563,7 @@
         document.getElementById('score-display').innerText = score;
         fb.innerText = '⭐ (正確) 答啱喇！好叻呀！ ⭐';
         fb.className = 'feedback-msg correct';
-        btnEl.style.transform = 'scale(1.08)';
-        btnEl.style.filter = 'brightness(1.2)';
+        btnEl.style.transform = 'scale(1.06)';
       } else {
         fb.innerText = `答錯咗少少，正確答案係【${correct}】`;
         fb.className = 'feedback-msg wrong';
@@ -639,11 +609,17 @@
     }
 
     function toggleFullScreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(() => {});
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        }
       } else {
         if (document.exitFullscreen) {
           document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
         }
       }
     }

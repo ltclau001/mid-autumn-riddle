@@ -443,7 +443,7 @@
         <div style="font-size: clamp(18px, 3vh, 26px); font-weight: 900; color: var(--text-brown); line-height: 1.6; text-align:center;">
           🌕 歡迎各位小朋友！<br>
           每個回合有 <strong style="color:#d97706;">5 條題目</strong><br>
-          答啱 1 題得 <strong style="color:#16a34a;">1 分</strong> ⭐
+          答對 1 題得 <strong style="color:#16a34a;">1 分</strong> ⭐
         </div>
       </div>
 
@@ -551,7 +551,7 @@
         ans: "兔子"
       },
       {
-        q: "有時似香蕉，有時似大圓盤，掛在夜空照大地。（猜自然事物）",
+        q: "有時像香蕉，有時像大圓盤，掛在夜空照大地。（猜自然事物）",
         options: ["月亮", "太陽", "彩虹"],
         ans: "月亮"
       },
@@ -571,7 +571,7 @@
         ans: "嫦娥"
       },
       {
-        q: "細細粒，點燃會發光，放在燈籠入面照亮路。（猜物品）",
+        q: "細小的，點燃會發光，放在燈籠入面照亮路。（猜物品）",
         options: ["蠟燭", "雪條", "牙刷"],
         ans: "蠟燭"
       }
@@ -632,11 +632,11 @@
       if (selected === correct) {
         score += 1;
         document.getElementById('score-display').innerText = score;
-        fb.innerText = '⭐ (正確) 答啱喇！好叻呀！ ⭐';
+        fb.innerText = '⭐ (正確) 答對了！十分厲害！ ⭐';
         fb.className = 'feedback-msg correct';
         btnEl.style.transform = 'scale(1.06)';
       } else {
-        fb.innerText = `答錯咗少少，正確答案係【${correct}】`;
+        fb.innerText = `答錯了，正確答案是【${correct}】`;
         fb.className = 'feedback-msg wrong';
         btnEl.style.opacity = '0.5';
       }
@@ -671,7 +671,7 @@
       } else if (score >= 3) {
         commentEl.innerText = '👏 好厲害！表現非常出色！ 🥮';
       } else {
-        commentEl.innerText = '💪 繼續加油！下次一定更勁！ 🏮';
+        commentEl.innerText = '💪 繼續加油！下次一定更好！ 🏮';
       }
     }
 
